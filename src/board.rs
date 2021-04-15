@@ -1,3 +1,5 @@
+use rand::Rng;
+
 #[derive(Debug)]
 pub struct Hex {
     owner: usize,
@@ -15,6 +17,18 @@ pub fn new_board(size: usize) -> Vec<Hex> {
     let mut hs = Vec::with_capacity(hex_count);
     for _i in 0..hex_count {
         hs.push(Hex { owner: 0, dice: 0 });
+    }
+    hs
+}
+
+pub fn random_board(size: usize, player_cnt: usize, max_dice: usize) -> Board {
+    let mut rng = rand::thread_rng();
+    let hex_count = size * size;
+    let mut hs = Vec::with_capacity(hex_count);
+    for _i in 0..hex_count {
+        let owner = rng.gen_range(0..player_cnt);
+        let dice = rng.gen_range(1..max_dice);
+        hs.push(Hex { owner, dice });
     }
     hs
 }

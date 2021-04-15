@@ -8,12 +8,12 @@ fn new_board(size: usize) -> Vec<Hex> {
     let hex_count = size * size;
     let mut hs = Vec::with_capacity(hex_count);
     for _i in 0..hex_count {
-        hs.push( Hex { owner: 0, dice: 0 } );
+        hs.push(Hex { owner: 0, dice: 0 });
     }
     hs
 }
 
-fn board_as_string(hs: Vec<Hex>, sz: usize) -> String{
+fn board_as_string(hs: Vec<Hex>, sz: usize) -> String {
     let mut rep = String::new();
 
     for row in 0..sz {
@@ -21,7 +21,7 @@ fn board_as_string(hs: Vec<Hex>, sz: usize) -> String{
         for _row_skew in 0..off_set {
             rep.push_str("   ");
         }
-        for col in 0..(sz-1) {
+        for col in 0..(sz - 1) {
             let idx = sz * row + col;
             rep.push_str(&format!("{}-{} ", hs[idx].owner, hs[idx].dice));
         }
@@ -30,6 +30,7 @@ fn board_as_string(hs: Vec<Hex>, sz: usize) -> String{
     }
     rep
 }
+
 fn print_board(hs: Vec<Hex>, sz: usize) {
     print!("{}", board_as_string(hs, sz));
 }
@@ -50,7 +51,7 @@ mod tests {
         let sz: usize = 2;
         let board = new_board(sz);
         assert_eq!(board.capacity(), board.len());
-        assert_eq!(sz*sz, board.len());
+        assert_eq!(sz * sz, board.len());
         for h in &board {
             assert_eq!(h.owner, 0);
             assert_eq!(h.dice, 0);

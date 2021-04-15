@@ -4,6 +4,10 @@ struct Hex {
     dice: usize,
 }
 
+fn hex_as_string(h: &Hex) -> String {
+    format!("{}-{}", h.owner, h.dice)
+}
+
 fn new_board(size: usize) -> Vec<Hex> {
     let hex_count = size * size;
     let mut hs = Vec::with_capacity(hex_count);
@@ -13,7 +17,7 @@ fn new_board(size: usize) -> Vec<Hex> {
     hs
 }
 
-fn board_as_string(hs: Vec<Hex>, sz: usize) -> String {
+fn board_as_string(hs: &Vec<Hex>, sz: usize) -> String {
     let mut rep = String::new();
 
     for row in 0..sz {
@@ -23,15 +27,15 @@ fn board_as_string(hs: Vec<Hex>, sz: usize) -> String {
         }
         for col in 0..(sz - 1) {
             let idx = sz * row + col;
-            rep.push_str(&format!("{}-{} ", hs[idx].owner, hs[idx].dice));
+            rep.push_str(&format!("{} ", hex_as_string(&hs[idx])));
         }
         let idx = sz * row + sz - 1;
-        rep.push_str(&format!("{}-{}\n", hs[idx].owner, hs[idx].dice));
+        rep.push_str(&format!("{}\n", hex_as_string(&hs[idx])));
     }
     rep
 }
 
-fn print_board(hs: Vec<Hex>, sz: usize) {
+fn print_board(hs: &Vec<Hex>, sz: usize) {
     print!("{}", board_as_string(hs, sz));
 }
 
@@ -39,7 +43,7 @@ fn main() {
     println!("Welcome to Dice of Doom, the Rust edition!");
     let sz = 2;
     let board = new_board(sz);
-    print_board(board, sz);
+    print_board(&board, sz);
 }
 
 #[cfg(test)]
@@ -62,7 +66,7 @@ mod tests {
     fn test_board_as_string() {
         let sz: usize = 2;
         let board = new_board(sz);
-        let rep = board_as_string(board, sz);
+        let rep = board_as_string(&board, sz);
         let exp = "      0-0 0-0\n   0-0 0-0\n";
         assert_eq!(rep, exp);
     }

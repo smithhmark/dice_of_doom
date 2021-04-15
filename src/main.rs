@@ -13,18 +13,25 @@ fn new_board(size: usize) -> Vec<Hex> {
     hs
 }
 
-fn print_board(hs: Vec<Hex>, sz: usize) {
+fn board_as_string(hs: Vec<Hex>, sz: usize) -> String{
+    let mut rep = String::new();
+
     for row in 0..sz {
         let off_set = sz - row;
         for _row_skew in 0..off_set {
-            print!("   ");
+            rep.push_str("   ");
         }
-        for col in 0..sz {
+        for col in 0..(sz-1) {
             let idx = sz * row + col;
-            print!("{} ", format!("{}-{}", hs[idx].owner, hs[idx].dice));
+            rep.push_str(&format!("{}-{} ", hs[idx].owner, hs[idx].dice));
         }
-        print!("\n");
+        let idx = sz * row + sz - 1;
+        rep.push_str(&format!("{}-{}\n", hs[idx].owner, hs[idx].dice));
     }
+    rep
+}
+fn print_board(hs: Vec<Hex>, sz: usize) {
+    print!("{}", board_as_string(hs, sz));
 }
 
 fn main() {
@@ -48,5 +55,14 @@ mod tests {
             assert_eq!(h.owner, 0);
             assert_eq!(h.dice, 0);
         }
+    }
+
+    #[test]
+    fn test_board_as_string() {
+        let sz: usize = 2;
+        let board = new_board(sz);
+        let rep = board_as_string(board, sz);
+        let exp = "      0-0 0-0\n   0-0 0-0\n";
+        assert_eq!(rep, exp);
     }
 }

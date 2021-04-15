@@ -67,7 +67,7 @@ mod tests {
         let sz: usize = 2;
         let board = new_board(sz);
         let rep = board_as_string(&board, sz);
-        let exp = "      0-0 0-0\n   0-0 0-0\n";
+        let exp = "      0-0 0-0\n   0-0 0-0\n".to_string();
         assert_eq!(rep, exp);
     }
 }

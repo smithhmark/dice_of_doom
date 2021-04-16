@@ -1,22 +1,14 @@
 use rand::Rng;
 
-#[derive(Debug)]
-pub struct Hex {
-    pub owner: usize,
-    pub dice: usize,
-}
+use super::hex;
 
-fn hex_as_string(h: &Hex) -> String {
-    format!("{}-{}", h.owner, h.dice)
-}
-
-pub type Board = Vec<Hex>;
+pub type Board = Vec<hex::Hex>;
 
 pub fn new_board(size: usize) -> Board {
     let hex_count = size * size;
     let mut hs = Vec::with_capacity(hex_count);
     for _i in 0..hex_count {
-        hs.push(Hex { owner: 0, dice: 0 });
+        hs.push(hex::Hex { owner: 0, dice: 0 });
     }
     hs
 }
@@ -28,12 +20,12 @@ pub fn random_board(size: usize, player_cnt: usize, max_dice: usize) -> Board {
     for _i in 0..hex_count {
         let owner = rng.gen_range(0..player_cnt);
         let dice = rng.gen_range(1..max_dice);
-        hs.push(Hex { owner, dice });
+        hs.push(hex::Hex { owner, dice });
     }
     hs
 }
 
-pub fn as_string(hs: &Vec<Hex>, sz: usize) -> String {
+pub fn as_string(hs: &Board, sz: usize) -> String {
     let mut rep = String::new();
 
     for row in 0..sz {
@@ -43,10 +35,10 @@ pub fn as_string(hs: &Vec<Hex>, sz: usize) -> String {
         }
         for col in 0..(sz - 1) {
             let idx = sz * row + col;
-            rep.push_str(&format!("{} ", hex_as_string(&hs[idx])));
+            rep.push_str(&format!("{} ", hex::as_string(&hs[idx])));
         }
         let idx = sz * row + sz - 1;
-        rep.push_str(&format!("{}\n", hex_as_string(&hs[idx])));
+        rep.push_str(&format!("{}\n", hex::as_string(&hs[idx])));
     }
     rep
 }

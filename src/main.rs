@@ -1,3 +1,4 @@
+mod hex;
 mod board;
 mod game;
 

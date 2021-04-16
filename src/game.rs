@@ -2,8 +2,8 @@ use super::board;
 
 #[allow(dead_code)]
 #[derive(Debug)]
-pub struct Game {
-    pub num_players: usize,
+pub struct GameSetup {
+    pub players: usize,
     pub board_sz: usize,
 }
 
@@ -17,9 +17,13 @@ pub struct GameState {
 }
 
 pub fn create_root(board: board::Board) -> Box<GameState> {
+    new_turn(board, 0)
+}
+
+fn new_turn(board: board::Board, player: usize) -> Box<GameState> {
     Box::new(GameState {
         board,
-        player: 0,
+        player,
         captured_dice: 0,
         can_pass: false,
         moves: vec![],
@@ -33,12 +37,15 @@ fn next_player(current: usize, number: usize) -> usize {
 
 /// add_passing turns the gave over to the next player.
 #[allow(dead_code)]
-fn add_passing(node: &mut GameState) {
+fn add_passing(node: &mut GameState, setup: &GameSetup) {
     if node.can_pass {
         println!("allowed to pass");
         println!("  find next player -- required player count");
+        let next_player = next_player(node.player, setup.players);
         println!("  determine board after reinforcements");
+        let new_board = reinforce(node.board, node.player, node.captured_dice);
         println!("  create link to GameState with above");
+        node.moves.push(new_turn(new_board, next_player));
     } else {
         println!("NOT allowed to pass");
         println!("  do nothing");

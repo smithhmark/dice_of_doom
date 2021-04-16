@@ -2,8 +2,8 @@ use rand::Rng;
 
 #[derive(Debug)]
 pub struct Hex {
-    owner: usize,
-    dice: usize,
+    pub owner: usize,
+    pub dice: usize,
 }
 
 fn hex_as_string(h: &Hex) -> String {

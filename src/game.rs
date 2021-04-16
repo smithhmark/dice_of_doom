@@ -43,7 +43,7 @@ fn add_passing(node: &mut GameState, setup: &GameSetup) {
         println!("  find next player -- required player count");
         let next_player = next_player(node.player, setup.players);
         println!("  determine board after reinforcements");
-        let new_board = reinforce(node.board, node.player, node.captured_dice);
+        let new_board = reinforce(&node.board, node.player, node.captured_dice);
         println!("  create link to GameState with above");
         node.moves.push(new_turn(new_board, next_player));
     } else {

@@ -43,6 +43,33 @@ pub fn as_string(hs: &Board, sz: usize) -> String {
     rep
 }
 
+pub fn neighbor_indices(pos: usize, sz: usize) -> Vec<usize> {
+    let pos = pos as isize;
+    let sz = sz as isize;
+    let highest = sz * sz;
+    let up: isize = pos - sz;
+    let down: isize = pos + sz;
+    let mut ns: Vec<isize> = Vec::with_capacity(6);
+    let column = pos % sz;
+    let left = 0;
+    let right = sz - 1;
+    ns.push(up);
+    ns.push(down);
+    if column != right {
+        ns.push(pos + 1);
+        ns.push(down + 1);
+    }
+    if column != left {
+        ns.push(up - 1);
+        ns.push(pos - 1);
+    }
+    let mut output: Vec<usize> = Vec::with_capacity(6);
+    for i in ns.iter().filter(|&x| *x >= 0 && *x < highest) {
+        output.push(*i as usize);
+    }
+    output
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -66,5 +93,13 @@ mod tests {
         let rep = as_string(&board, sz);
         let exp = "      0-0 0-0\n   0-0 0-0\n".to_string();
         assert_eq!(rep, exp);
+    }
+
+    #[test]
+    fn test_neighbor_indices() {
+        let sz = 2;
+        let pos = 2;
+        let expected: Vec<usize> = vec![0, 3];
+        assert_eq!(expected, neighbor_indices(pos, sz));
     }
 }

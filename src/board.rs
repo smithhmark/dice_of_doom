@@ -12,7 +12,7 @@ fn hex_as_string(h: &Hex) -> String {
 
 pub type Board = Vec<Hex>;
 
-pub fn new_board(size: usize) -> Vec<Hex> {
+pub fn new_board(size: usize) -> Board {
     let hex_count = size * size;
     let mut hs = Vec::with_capacity(hex_count);
     for _i in 0..hex_count {
@@ -33,7 +33,7 @@ pub fn random_board(size: usize, player_cnt: usize, max_dice: usize) -> Board {
     hs
 }
 
-pub fn board_as_string(hs: &Vec<Hex>, sz: usize) -> String {
+pub fn as_string(hs: &Vec<Hex>, sz: usize) -> String {
     let mut rep = String::new();
 
     for row in 0..sz {
@@ -71,7 +71,7 @@ mod tests {
     fn test_board_as_string() {
         let sz: usize = 2;
         let board = new_board(sz);
-        let rep = board_as_string(&board, sz);
+        let rep = as_string(&board, sz);
         let exp = "      0-0 0-0\n   0-0 0-0\n".to_string();
         assert_eq!(rep, exp);
     }

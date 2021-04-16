@@ -26,6 +26,11 @@ pub fn create_root(board: board::Board) -> Box<GameState> {
     })
 }
 
+/// determine the next play id
+fn next_player(current: usize, number: usize) -> usize {
+    (current + 1) % number
+}
+
 /// add_passing turns the gave over to the next player.
 #[allow(dead_code)]
 fn add_passing(node: &mut GameState) {
@@ -87,5 +92,13 @@ mod tests {
         assert_eq!(board::as_string(&board2, sz), starting_state);
         let board2 = reinforce(&board1, 0, 4);
         assert_eq!(board::as_string(&board2, sz), "      0-1 0-1\n   0-1 0-1\n");
+    }
+
+    #[test]
+    fn test_next_player() {
+        let number_of_players = 3;
+        assert_eq!(next_player(0, number_of_players), 1);
+        assert_eq!(next_player(1, number_of_players), 2);
+        assert_eq!(next_player(2, number_of_players), 0);
     }
 }

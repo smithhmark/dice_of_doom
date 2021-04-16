@@ -31,8 +31,12 @@ pub fn create_root(board: board::Board) -> Box<GameState> {
 fn add_passing(node: &mut GameState) {
     if node.can_pass {
         println!("allowed to pass");
+        println!("  find next player -- required player count");
+        println!("  determine board after reinforcements");
+        println!("  create link to GameState with above");
     } else {
         println!("NOT allowed to pass");
+        println!("  do nothing");
     }
 }
 
